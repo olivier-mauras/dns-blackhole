@@ -21,6 +21,9 @@ While the shebang is set on python36, the script works fine on python 2.7
 
 Installation
 ------------
+
+The script requires `yaml` and `requests` modules.  
+
 ``` bash
 cd /etc
 git clone http://git.mauras.ch/Various/blackhole
