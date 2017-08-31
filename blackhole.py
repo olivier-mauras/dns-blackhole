@@ -38,7 +38,6 @@ def load_config():
         print('Unable to find a config file in: {0}'.format(default_paths))
         sys.exit()
     else:
-        print(config_file)
         try:
             f = open(config_file, 'r')
         except:
