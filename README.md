@@ -17,7 +17,7 @@ Features
 - Lets you whitelist/blacklist domains
 - YAML configuration file
 
-Tested with python 2.7 and 3.6
+While the shebang is set on python36, the script works fine on python 2.7
 
 Installation
 ------------
