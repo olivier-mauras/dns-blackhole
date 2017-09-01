@@ -35,7 +35,7 @@ def load_config():
 
     # Exit if not
     if config_file is None:
-        print('Unable to find a config file in: {0}'.format(default_paths))
+        print('Unable to find a config file in: {0}'.format(DEFAULT_CONFIG_PATHS))
         sys.exit()
     else:
         try:
@@ -216,7 +216,7 @@ def process_disconnect_url(bh_list, white_list, zone_data, d_url, d_cat):
     try:
         r = requests.get(d_url)
     except:
-        print('Request to {0} failed: {1}'.format(url, sys.exc_info()[0]))
+        print('Request to {0} failed: {1}'.format(d_url, sys.exc_info()[0]))
         sys.exit()
 
     if r.status_code == 200:
@@ -254,6 +254,7 @@ def process_black_list(bh_list, black_list, zone_data):
 
     # Return the list sorted
     return sorted(list(set(bh_list)))
+
 
 def build_bw_lists(bh_whitelist, bh_blacklist):
     white_list = []
@@ -325,8 +326,8 @@ def main():
     if 'disconnect' in lists:
         d_url = lists['disconnect']['url']
         d_cat = lists['disconnect']['categories']
-        bh_list = process_disconnect_url(bh_list, 
-                                         white_list, 
+        bh_list = process_disconnect_url(bh_list,
+                                         white_list,
                                          zone_data,
                                          d_url,
                                          d_cat)
