@@ -105,6 +105,7 @@ def process_host_file_url(bh_list, white_list, zone_data, host_file_urls):
         try:
             r = requests.get(url)
         except:
+            print('Request to {0} failed: {1}'.format(url, sys.exc_info()[0]))
             sys.exit()
 
         if r.status_code != 200:
@@ -154,6 +155,7 @@ def process_easylist_url(bh_list, white_list, zone_data, easy_list_url):
         try:
             r = requests.get(url)
         except:
+            print('Request to {0} failed: {1}'.format(url, sys.exc_info()[0]))
             sys.exit()
 
         if r.status_code != 200:
@@ -206,6 +208,7 @@ def process_disconnect_url(bh_list, white_list, zone_data, d_url, d_cat):
     try:
         r = requests.get(d_url)
     except:
+        print('Request to {0} failed: {1}'.format(url, sys.exc_info()[0]))
         sys.exit()
 
     if r.status_code == 200:
