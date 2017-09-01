@@ -42,10 +42,10 @@ Add `include: "/etc/unbound/blackhole.zone"` before any forward option in your u
 Use the following `zone_data` in your `blackhole.yml` (default):
 
 ``` yaml
-zone_data: 'local-zone: "{host}" always_nxdomain'
+zone_data: 'local-zone: "{domain}" always_nxdomain'
 ```
 
-`{host}` wil be replaced by the blackholed domains
+`{domain}` wil be replaced by the blackholed domains
 
 #### PowerDNS Recursor  
 
@@ -54,10 +54,10 @@ Ensure your don't have anything running on `127.0.0.2:6666` or change port detai
 Use the following `zone_data` in your `blackhole.yml`:
 
 ``` yaml
-zone_data: '{host}=127.0.0.2:6666'
+zone_data: '{domain}=127.0.0.2:6666'
 ```
 
-`{host}` wil be replaced by the blackholed domains
+`{domain}` wil be replaced by the blackholed domains
 
 #### Dnsmasq  
 
@@ -65,10 +65,10 @@ Add `conf-dir=/etc/dnsmasq.d` in your dnsmasq config and point your `zone_file` 
 Use the following `zone_data` in your `blackhole.yml`:
 
 ``` yaml
-zone_data: 'server=/{host}/'
+zone_data: 'server=/{domain}/'
 ```
 
-`{host}` wil be replaced by the blackholed domains
+`{domain}` wil be replaced by the blackholed domains
 
 
 Configuration
@@ -100,8 +100,8 @@ blackhole:
           - Analytics
   config:
     zone_file: /etc/unbound/blackhole.zone
-    # {host} will be replaced by the blackholed domain, do not change it here
-    zone_data: 'local-zone: "{host}" always_nxdomain'
+    # {domain} will be replaced by the blackholed domain, do not change it here
+    zone_data: 'local-zone: "{domain}" always_nxdomain'
     blackhole_lists:
       hosts:
         - http://winhelp2002.mvps.org/hosts.txt

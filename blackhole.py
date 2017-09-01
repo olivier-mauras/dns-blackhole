@@ -145,7 +145,7 @@ def process_host_file_url(bh_list, white_list, zone_data, host_file_urls):
 
                     # Now add the hosts to the list
                     if n_host not in white_list:
-                        bh_list.append(zone_data.format(**{'host': n_host}))
+                        bh_list.append(zone_data.format(**{'domain': n_host}))
 
     return bh_list
 
@@ -199,7 +199,7 @@ def process_easylist_url(bh_list, white_list, zone_data, easy_list_url):
 
                     # Now add the hosts to the list
                     if n_host not in white_list:
-                        bh_list.append(zone_data.format(**{'host': n_host}))
+                        bh_list.append(zone_data.format(**{'domain': n_host}))
 
     return bh_list
 
@@ -231,7 +231,7 @@ def process_disconnect_url(bh_list, white_list, zone_data, d_url, d_cat):
                             if isinstance(h_list, list):
                                 for host in h_list:
                                     if host not in white_list:
-                                        bh_list.append(zone_data.format(**{'host': host}))
+                                        bh_list.append(zone_data.format(**{'domain': host}))
     else:
         print('"categories" key not found in dict, nothing to process')
         return bh_list
@@ -242,7 +242,7 @@ def process_disconnect_url(bh_list, white_list, zone_data, d_url, d_cat):
 
 def process_black_list(bh_list, black_list, zone_data):
     for bl_host in black_list:
-        bh_list.append(zone_data.format(**{'host': bl_host}))
+        bh_list.append(zone_data.format(**{'domain': bl_host}))
 
     # Return the list sorted
     return sorted(list(set(bh_list)))

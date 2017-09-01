@@ -21,8 +21,8 @@ blackhole:
           - Analytics
   config:
     zone_file: /etc/unbound/blackhole.zone
-    # {host} will be replaced by the blackholed domain, do not change it here
-    zone_data: 'local-zone: "{host}" always_nxdomain' # For unbound
-    # zone_data: '{host}=127.0.0.2:6666' # For PowerDNS recursor
+    # {domain} will be replaced by the blackholed domain, do not change it here
+    zone_data: 'local-zone: "{domain}" always_nxdomain' # For unbound
+    # zone_data: '{domain}=127.0.0.2:6666' # For PowerDNS recursor
     blackhole_lists: *bh_lists
 
