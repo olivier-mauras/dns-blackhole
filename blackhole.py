@@ -138,6 +138,8 @@ def process_host_file_url(bh_list, white_list, zone_data, host_file_urls):
                     n_host = n_host.split(':')[0]
                     # Some leave spaces prefixed
                     n_host = n_host.replace(' ', '')
+                    # Some put caps
+                    n_host = n_host.lower()
 
                     # Remove local domains
                     if n_host == 'localhost.localdomain' or n_host == 'localhost':
@@ -199,6 +201,9 @@ def process_easylist_url(bh_list, white_list, zone_data, easy_list_url):
 
                     # Some leave a final '.'
                     n_host = n_host.rstrip('.')
+
+                    # Some put caps
+                    n_host = n_host.lower()
 
                     # Now add the hosts to the list
                     if n_host not in white_list:
