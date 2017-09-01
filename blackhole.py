@@ -197,6 +197,9 @@ def process_easylist_url(bh_list, white_list, zone_data, easy_list_url):
                     if '.' not in n_host:
                         continue
 
+                    # Some leave a final '.'
+                    n_host = n_host.rstrip('.')
+
                     # Now add the hosts to the list
                     if n_host not in white_list:
                         bh_list.append(zone_data.format(**{'domain': n_host}))
