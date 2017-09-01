@@ -4,12 +4,18 @@ BlackHole
 Most of code comes from here: http://git.mauras.ch/Various/powerdns_recursor_ads_blocking.  
 Check it for history.  
 
-This script helps you create a blackhole zone for Unbound or PowerDNS Recursor, using some well known ads/tracking/malware lists.  
+This script helps you create a blackhole zone for your DNS server, using some well known ads/tracking/malware lists.  
+As long as your DNS server allows to include a file containing one domain per line with its config syntax it should work.  
+Right now known to work and tested:
+
+- [Unbound](https://www.unbound.net/) 
+- [PowerDNS recursor](https://www.powerdns.com/recursor.html) 
+- [Dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html)
 
 Features
 --------
 
-- Supports both [Unbound](https://www.unbound.net/) and [PowerDNS recursor](https://www.powerdns.com/recursor.html) configuration syntax
+- Not bound to a specific DNS server
 - Supports 3 different list format
     - Host file
     - [Easylist](https://easylist.to/)
@@ -33,11 +39,37 @@ git clone http://git.mauras.ch/Various/blackhole
 
 Requires unbound >= `1.6`, using the default zone file with unbound `1.5` will certainly make it eat all your ram and swap before getting killed.  
 Add `include: "/etc/unbound/blackhole.zone"` before any forward option in your unbound configuration.  
+Use the following `zone_data` in your `blackhole.yml` (default):
+
+``` yaml
+zone_data: 'local-zone: "{host}" always_nxdomain'
+```
+
+`{host}` wil be replaced by the blackholed domains
 
 #### PowerDNS Recursor  
 
 Add `forward-zones-file=/etc/pdns/blackhole.zone` in your recursor configuration.  
 Ensure your don't have anything running on `127.0.0.2:6666` or change port details in configuration file.  
+Use the following `zone_data` in your `blackhole.yml`:
+
+``` yaml
+zone_data: '{host}=127.0.0.2:6666'
+```
+
+`{host}` wil be replaced by the blackholed domains
+
+#### Dnsmasq  
+
+Add `conf-dir=/etc/dnsmasq.d` in your dnsmasq config and point your `zone_file` option to `/etc/dnsmasq.d/blackhole.conf`  
+Use the following `zone_data` in your `blackhole.yml`:
+
+``` yaml
+zone_data: 'server=/{host}/'
+```
+
+`{host}` wil be replaced by the blackholed domains
+
 
 Configuration
 -------------
