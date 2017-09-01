@@ -12,10 +12,12 @@ Right now known to work and tested:
 - [PowerDNS recursor](https://www.powerdns.com/recursor.html) 
 - [Dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html)
 
+Generating an agregated host file is also possible.  
+
 Features
 --------
 
-- Not bound to a specific DNS server
+- Not bound to a specific DNS server, generates a file format of your choice
 - Supports 3 different list format
     - Host file
     - [Easylist](https://easylist.to/)
@@ -38,7 +40,7 @@ git clone http://git.mauras.ch/Various/blackhole
 #### Unbound  
 
 Requires unbound >= `1.6`, using the default zone file with unbound `1.5` will certainly make it eat all your ram and swap before getting killed.  
-Add `include: "/etc/unbound/blackhole.zone"` before any forward option in your unbound configuration.  
+Add `include: "/etc/unbound/blackhole.zone"` right after your `server:` block.  
 Use the following `zone_data` in your `blackhole.yml` (default):
 
 ``` yaml
@@ -68,7 +70,19 @@ Use the following `zone_data` in your `blackhole.yml`:
 zone_data: 'server=/{domain}/'
 ```
 
-`{domain}` wil be replaced by the blackholed domains
+`{domain}` wil be replaced by the blackholed domains  
+
+#### Host file
+
+Use the following `zone_data` in your `blackhole.yml`:
+
+``` yaml
+zone_data: '127.0.0.1 {domain}'
+```
+
+<br\>
+
+Once you're happy with your configuration Just run `./blackhole.py`
 
 
 Configuration
