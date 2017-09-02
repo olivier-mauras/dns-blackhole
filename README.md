@@ -25,7 +25,7 @@ Features
 - Lets you whitelist/blacklist domains
 - YAML configuration file
 
-While the shebang is set on python36, the script works fine on python 2.7
+While the shebang is set on python3.6, the script works fine on python 2.7
 
 Installation
 ------------
@@ -52,11 +52,10 @@ zone_data: 'local-zone: "{domain}" always_nxdomain'
 #### PowerDNS Recursor  
 
 Add `forward-zones-file=/etc/pdns/blackhole.zone` in your recursor configuration.  
-Ensure your don't have anything running on `127.0.0.2:6666` or change port details in configuration file.  
 Use the following `zone_data` in your `blackhole.yml`:
 
 ``` yaml
-zone_data: '{domain}=127.0.0.2:6666'
+zone_data: '{domain}='
 ```
 
 `{domain}` wil be replaced by the blackholed domains
@@ -80,10 +79,8 @@ Use the following `zone_data` in your `blackhole.yml`:
 zone_data: '127.0.0.1 {domain}'
 ```
 
-<br\>
-
-Once you're happy with your configuration Just run `./blackhole.py`
-
+Once you're happy with your configuration Just run `./blackhole.py`.  
+The default lists in `blackhole.yml` will generate a zone containing ~698000 entries.  
 
 Configuration
 -------------
@@ -128,11 +125,22 @@ In this example you would keep `easylist` and `disconnect` lists, but would remo
 FAQ
 ---
 
+#### What's the advantage of having the DNS server returning NX instead of 127.0.0.1
+
+Host lists are usually returning `127.0.0.1` or `0.0.0.0`.  
+Depending of the system and/or browser you use, you can end up having timeout/slowness issues has it retries to connect several times before considering the remote resource down.  
+
+Having your DNS server return NXDOMAIN - Non existant domain - on the other side makes your client behave faster as there's nothing to retry when the domain doesn't exist.  
+
 #### Why using forward-zones-file option instead of auth-zones in PowerDNS recursor?  
 
 Syntax of the `auth-zones` is like this: `auth-zones=dom1=<zone>,dom2=<zone>,dom3=<zone>,etc`  
 While this may work for 5000 black holed domains, for almost 700 000 the speed of generation is so slow that it takes several tens of minutes to complete. Even worse, with such a list, pdns-recursor is not even able to start and will crash.  
 By using the `forward-zones-file` pdns-recursor takes around 5 more seconds to process the zone file.  
+
+#### Which DNS server is the best?
+
+It's really a matter of preferences and what you have available. Use the one you're the most comfortable with.  
 
 TODO
 ----
