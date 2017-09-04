@@ -13,14 +13,14 @@ if sys.version_info[0] == 2:
     sys.setdefaultencoding('utf-8')
 
 # Default variables
-DEFAULT_CONFIG_PATHS = ['/etc/blackhole/blackhole.yml',
-                        './blackhole.yml',
-                        '{0}/.blackhole.yml'.format(os.getenv("HOME"))
+DEFAULT_CONFIG_PATHS = ['/etc/dns-blackhole/dns-blackhole.yml',
+                        './dns-blackhole.yml',
+                        '{0}/.dns-blackhole.yml'.format(os.getenv("HOME"))
                        ]
-CACHE = '/var/cache/blackhole'
-LOG = '/var/log/blackhole/blackhole.log'
-WHITELIST = '/etc/blackhole/whitelist'
-BLACKLIST = '/etc/blackhole/blacklist'
+CACHE = '/var/cache/dns-blackhole'
+LOG = '/var/log/dns-blackhole/dns-blackhole.log'
+WHITELIST = '/etc/dns-blackhole/whitelist'
+BLACKLIST = '/etc/dns-blackhole/blacklist'
 
 
 # Load yaml config
@@ -53,48 +53,48 @@ def load_config():
 
 
 def get_general(config):
-    if 'blackhole' in config:
-        if 'general' in config['blackhole']:
-            if 'cache' in config['blackhole']['general']:
-                cache = config['blackhole']['general']['cache']
+    if 'dns-blackhole' in config:
+        if 'general' in config['dns-blackhole']:
+            if 'cache' in config['dns-blackhole']['general']:
+                cache = config['dns-blackhole']['general']['cache']
             else:
                 cache = CACHE
 
-            if 'log' in config['blackhole']['general']:
-                log = config['blackhole']['general']['log']
+            if 'log' in config['dns-blackhole']['general']:
+                log = config['dns-blackhole']['general']['log']
             else:
                 log = LOG
 
-            if 'whitelist' in config['blackhole']['general']:
-                whitelist = config['blackhole']['general']['whitelist']
+            if 'whitelist' in config['dns-blackhole']['general']:
+                whitelist = config['dns-blackhole']['general']['whitelist']
             else:
                 whitelist = WHITELIST
 
-            if 'blacklist' in config['blackhole']['general']:
-                blacklist = config['blackhole']['general']['blacklist']
+            if 'blacklist' in config['dns-blackhole']['general']:
+                blacklist = config['dns-blackhole']['general']['blacklist']
             else:
                 blacklist = BLACKLIST
         else:
             print('Missing general section in config file')
             sys.exit()
     else:
-        print('Cannot find blackhole section in config file.')
+        print('Cannot find dns-blackhole section in config file.')
         sys.exit()
 
     return cache, log, whitelist, blacklist
 
 
 def get_service(config):
-    if 'blackhole' in config:
-        if 'config' in config['blackhole']:
-            zone_file = config['blackhole']['config']['zone_file']
-            zone_data = config['blackhole']['config']['zone_data']
-            lists = config['blackhole']['config']['blackhole_lists']
+    if 'dns-blackhole' in config:
+        if 'config' in config['dns-blackhole']:
+            zone_file = config['dns-blackhole']['config']['zone_file']
+            zone_data = config['dns-blackhole']['config']['zone_data']
+            lists = config['dns-blackhole']['config']['blackhole_lists']
         else:
             print('Cannot find "config" section in config file.')
             sys.exit()
     else:
-        print('Cannot find blackhole section in config file.')
+        print('Cannot find dns-blackhole section in config file.')
         sys.exit()
 
     return zone_file, zone_data, lists
@@ -277,19 +277,23 @@ def build_bw_lists(bh_whitelist, bh_blacklist):
     # Loop over the line and append them to the the list
     if w:
         for line in w.readlines():
-            # If there's a comment
-            if '#' in line:
-                white_list.append(line.split('#')[0].strip())
-            else:
-                white_list.append(line.strip())
+            # Ignore comments
+            if not line.startswith('#'):
+                # If there's a comment after the domain
+                if '#' in line:
+                    white_list.append(line.split('#')[0].strip())
+                else:
+                    white_list.append(line.strip())
 
     if b:
         for line in b.readlines():
-            # If there's a comment
-            if '#' in line:
-                black_list.append(line.split('#')[0].strip())
-            else:
-                black_list.append(line.strip())
+            # Ignore comments
+            if not line.startswith('#'):
+                # If there's a comment after the domain
+                if '#' in line:
+                    black_list.append(line.split('#')[0].strip())
+                else:
+                    black_list.append(line.strip())
 
     return white_list, black_list
 
