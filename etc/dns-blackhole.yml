@@ -1,0 +1,29 @@
+dns-blackhole:
+  general:
+    cache: /var/cache/dns-blackhole
+    log: /var/log/dns-blackhole/dns-blackhole.log
+    whitelist: /etc/dns-blackhole/whitelist
+    blacklist: /etc/dns-blackhole/blacklist
+    blackhole_lists: &bh_lists
+      hosts:
+        - http://someonewhocares.org/hosts/hosts
+        - https://hosts-file.net/download/hosts.txt
+        - http://winhelp2002.mvps.org/hosts.txt
+        - http://www.malwaredomainlist.com/hostslist/hosts.txt
+        - https://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts;showintro=0
+      easylist:
+        - https://easylist.to/easylist/easylist.txt
+        - https://raw.githubusercontent.com/paulgb/BarbBlock/master/BarbBlock.txt
+      disconnect:
+        url: https://services.disconnect.me/disconnect-plaintext.json
+        categories: # Advertising, Analytics, Disconnect, Social
+          - Advertising
+          - Analytics
+  config:
+    zone_file: /etc/unbound/blackhole.zone
+    # {domain} will be replaced by the blackholed domain, do not change it here
+    zone_data: 'local-zone: "{domain}" always_nxdomain' # For unbound
+    # zone_data: '{domain}=' # For PowerDNS recursor
+    # zone_data: 'server=/{domain}/' # For Dnsmasq
+    blackhole_lists: *bh_lists
+
