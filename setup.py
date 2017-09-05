@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='dns-blackhole',
-    version='0.2',
+    version='0.3',
     description='A generic DNS black hole zone generator',
     long_description='Let you fetch several known host list to generate a blackhole zone in the format of your choice',
     url='http://git.mauras.ch/Various/dns-blackhole',

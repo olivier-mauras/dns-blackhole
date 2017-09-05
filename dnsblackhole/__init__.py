@@ -13,9 +13,10 @@ if sys.version_info[0] == 2:
     sys.setdefaultencoding('utf-8')
 
 # Default variables
-DEFAULT_CONFIG_PATHS = ['/etc/dns-blackhole/dns-blackhole.yml',
-                        './dns-blackhole.yml',
-                        '{0}/.dns-blackhole.yml'.format(os.getenv("HOME"))
+                        
+DEFAULT_CONFIG_PATHS = ['{0}/.dns-blackhole.yml'.format(os.getenv("HOME")),
+                        '/etc/dns-blackhole/dns-blackhole.yml',
+                        './dns-blackhole.yml'
                        ]
 CACHE = '/var/cache/dns-blackhole'
 LOG = '/var/log/dns-blackhole/dns-blackhole.log'
