@@ -29,7 +29,7 @@ setup(
     long_description='Let you fetch several known host list to generate a blackhole zone in the format of your choice',
 
     # The project's main homepage.
-    url='https://github.com/pypa/sampleproject',
+    url='http://git.mauras.ch/Various/dns-blackhole'
 
     # Author details
     author='Olivier Mauras',
