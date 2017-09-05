@@ -103,6 +103,7 @@ def get_service(config):
 def process_host_file_url(bh_list, white_list, zone_data, host_file_urls):
     for url in host_file_urls:
         try:
+            print('[!] Fetch and parse URL: {0}'.format(url))
             r = requests.get(url)
         except:
             print('Request to {0} failed: {1}'.format(url, sys.exc_info()[0]))
@@ -155,6 +156,7 @@ def process_host_file_url(bh_list, white_list, zone_data, host_file_urls):
 def process_easylist_url(bh_list, white_list, zone_data, easy_list_url):
     for url in easy_list_url:
         try:
+            print('[!] Fetch and parse URL: {0}'.format(url))
             r = requests.get(url)
         except:
             print('Request to {0} failed: {1}'.format(url, sys.exc_info()[0]))
@@ -214,6 +216,7 @@ def process_easylist_url(bh_list, white_list, zone_data, easy_list_url):
 
 def process_disconnect_url(bh_list, white_list, zone_data, d_url, d_cat):
     try:
+        print('[!] Fetch and parse URL: {0}'.format(d_url))
         r = requests.get(d_url)
     except:
         print('Request to {0} failed: {1}'.format(d_url, sys.exc_info()[0]))
