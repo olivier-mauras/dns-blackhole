@@ -1,7 +1,7 @@
 dns-blackhole
 =========
 
-Most of code comes from here: http://git.mauras.ch/Various/powerdns_recursor_ads_blocking.  
+Most of code comes from here: http://git.mauras.ch/Various/powerdns_recursor_ads_blocking  
 Check it for history.  
 
 This script helps you create a blackhole zone for your DNS server, using some well known ads/tracking/malware lists.  
