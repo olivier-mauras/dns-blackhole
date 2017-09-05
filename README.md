@@ -1,4 +1,4 @@
-BlackHole
+dns-blackhole
 =========
 
 Most of code comes from here: http://git.mauras.ch/Various/powerdns_recursor_ads_blocking.  
@@ -30,18 +30,19 @@ While the shebang is set on python3.6, the script works fine on python 2.7
 Installation
 ------------
 
-The script requires `yaml` and `requests` modules.  
+The script requires `PyYAML` and `requests` modules.
 
 ``` bash
-cd /etc
-git clone http://git.mauras.ch/Various/blackhole
+git clone http://git.mauras.ch/Various/dns-blackhole
+cd dns-blackhole
+pip install . [--upgrade]
 ```
 
 #### Unbound  
 
 Requires unbound >= `1.6`, using the default zone file with unbound `1.5` will certainly make it eat all your ram and swap before getting killed.  
 Add `include: "/etc/unbound/blackhole.zone"` right after your `server:` block.  
-Use the following `zone_data` in your `blackhole.yml` (default):
+Use the following `zone_data` in your `dns-blackhole.yml` (default):
 
 ``` yaml
 zone_data: 'local-zone: "{domain}" always_nxdomain'
@@ -52,7 +53,7 @@ zone_data: 'local-zone: "{domain}" always_nxdomain'
 #### PowerDNS Recursor  
 
 Add `forward-zones-file=/etc/pdns/blackhole.zone` in your recursor configuration.  
-Use the following `zone_data` in your `blackhole.yml`:
+Use the following `zone_data` in your `dns-blackhole.yml`:
 
 ``` yaml
 zone_data: '{domain}='
@@ -63,7 +64,7 @@ zone_data: '{domain}='
 #### Dnsmasq  
 
 Add `conf-dir=/etc/dnsmasq.d` in your dnsmasq config and point your `zone_file` option to `/etc/dnsmasq.d/blackhole.conf`  
-Use the following `zone_data` in your `blackhole.yml`:
+Use the following `zone_data` in your `dns-blackhole.yml`:
 
 ``` yaml
 zone_data: 'server=/{domain}/'
@@ -73,14 +74,14 @@ zone_data: 'server=/{domain}/'
 
 #### Host file
 
-Use the following `zone_data` in your `blackhole.yml`:
+Use the following `zone_data` in your `dns-blackhole.yml`:
 
 ``` yaml
 zone_data: '127.0.0.1 {domain}'
 ```
 
-Once you're happy with your configuration Just run `./blackhole.py`.  
-The default lists in `blackhole.yml` will generate a zone containing ~698000 entries.  
+Once you're happy with your configuration Just run `dns-blackhole`.  
+The default lists in `dns-blackhole.yml` will generate a zone containing ~698000 entries.  
 
 Configuration
 -------------
@@ -88,12 +89,12 @@ Configuration
 As the configuration file is in YAML, you can use YAML anchors
 
 ```yaml
-blackhole:
+dns-blackhole:
   general:
-    cache: /var/cache/blackhole
-    log: /var/log/blackhole/blackhole.log
-    whitelist: /etc/blackhole/whitelist
-    blacklist: /etc/blackhole/blacklist
+    cache: /var/cache/dns-blackhole
+    log: /var/log/dns-blackhole/dns-blackhole.log
+    whitelist: /etc/dns-blackhole/whitelist
+    blacklist: /etc/dns-blackhole/blacklist
     blackhole_lists:
       hosts:
         - http://someonewhocares.org/hosts/hosts
@@ -128,7 +129,7 @@ FAQ
 #### What's the advantage of having the DNS server returning NX instead of 127.0.0.1
 
 Host lists are usually returning `127.0.0.1` or `0.0.0.0`.  
-Depending of the system and/or browser you use, you can end up having timeout/slowness issues has it retries to connect several times before considering the remote resource down.  
+Depending of the system and/or browser you use, you can end up having timeout/slowness issues as it retries to connect several times before considering the remote resource down.  
 
 Having your DNS server return NXDOMAIN - Non existant domain - on the other side makes your client behave faster as there's nothing to retry when the domain doesn't exist.  
 
