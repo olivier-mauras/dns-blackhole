@@ -31,9 +31,7 @@ Installation
 The script requires `PyYAML` and `requests` modules.
 
 ``` bash
-git clone http://git.mauras.ch/Various/dns-blackhole
-cd dns-blackhole
-pip install . [--upgrade]
+pip install [--upgrade] dns-blackhole
 ```
 
 #### Unbound  
