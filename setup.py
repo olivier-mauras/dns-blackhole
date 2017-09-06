@@ -1,26 +1,15 @@
 from setuptools import setup, find_packages
 from codecs import open
 import pypandoc
-import os
 
 # MD to RST automated convertion - Requires pandoc installed
 readme = pypandoc.convert('README.md', 'rst')
-f = open('README.rst','w+')
-f.write(readme)
-f.close()
-
-# Read README.rst for long description
-here = os.path.abspath(os.path.dirname(__file__))
-
-# Get the long description from the relevant file
-with open(os.path.join(here, 'README.rst'), encoding='utf-8') as f:
-    long_description = f.read()
 
 setup(
     name='dns-blackhole',
-    version='0.8',
+    version='0.9',
     description='A generic DNS black hole zone generator',
-    long_description=long_description,
+    long_description=readme,
     url='https://github.com/coredumb/dns-blackhole',
     author='Olivier Mauras',
     author_email='olivier@mauras.ch',
