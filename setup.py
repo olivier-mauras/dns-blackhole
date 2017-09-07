@@ -1,15 +1,19 @@
 from setuptools import setup, find_packages
 from codecs import open
-import pypandoc
+import os
 
-# MD to RST automated convertion - Requires pandoc installed
-readme = pypandoc.convert('README.md', 'rst')
+# Read README.rst for long description
+here = os.path.abspath(os.path.dirname(__file__))
+
+# Get the long description from the relevant file
+with open(os.path.join(here, 'README.rst'), encoding='utf-8') as f:
+    long_description = f.read()
 
 setup(
     name='dns-blackhole',
-    version='0.9',
+    version='0.10',
     description='A generic DNS black hole zone generator',
-    long_description=readme,
+    long_description=long_description,
     url='https://github.com/coredumb/dns-blackhole',
     author='Olivier Mauras',
     author_email='olivier@mauras.ch',
@@ -17,8 +21,8 @@ setup(
     keywords='DNS blackhole',
     packages=['dnsblackhole'],
     install_requires=['PyYAML', 'requests'],
-    data_files=[('/etc/dns-blackhole', ['etc/dns-blackhole.yml', 
-                                        'etc/whitelist', 
+    data_files=[('/etc/dns-blackhole', ['etc/dns-blackhole.yml',
+                                        'etc/whitelist',
                                         'etc/blacklist'])],
     entry_points = {
         'console_scripts': ['dns-blackhole=dnsblackhole.cli:main'],
