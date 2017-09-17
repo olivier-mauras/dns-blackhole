@@ -13,7 +13,7 @@ if sys.version_info[0] == 2:
     sys.setdefaultencoding('utf-8')
 
 # Default variables
-                        
+
 DEFAULT_CONFIG_PATHS = ['{0}/.dns-blackhole.yml'.format(os.getenv("HOME")),
                         '/etc/dns-blackhole/dns-blackhole.yml',
                         './dns-blackhole.yml'
@@ -147,6 +147,10 @@ def process_host_file_url(bh_list, white_list, zone_data, host_file_urls):
                     if n_host == 'localhost.localdomain' or n_host == 'localhost':
                         continue
 
+                    # Ignore empty string
+                    if n_host == '':
+                        continue
+
                     # Now add the hosts to the list
                     if n_host not in white_list:
                         bh_list.append(zone_data.format(**{'domain': n_host}))
@@ -208,6 +212,10 @@ def process_easylist_url(bh_list, white_list, zone_data, easy_list_url):
                     # Some put caps
                     n_host = n_host.lower()
 
+                    # ignore empty string
+                    if n_host == '':
+                        continue
+
                     # Now add the hosts to the list
                     if n_host not in white_list:
                         bh_list.append(zone_data.format(**{'domain': n_host}))
@@ -242,6 +250,8 @@ def process_disconnect_url(bh_list, white_list, zone_data, d_url, d_cat):
                             h_list = sub_dict[entity][main_url]
                             if isinstance(h_list, list):
                                 for host in h_list:
+                                    if host == '':
+                                        continue
                                     if host not in white_list:
                                         bh_list.append(zone_data.format(**{'domain': host}))
     else:
