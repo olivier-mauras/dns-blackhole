@@ -11,7 +11,7 @@ with open(os.path.join(here, 'README.rst'), encoding='utf-8') as f:
 
 setup(
     name='dns-blackhole',
-    version='0.11',
+    version='0.12',
     description='A generic DNS black hole zone generator',
     long_description=long_description,
     url='https://github.com/coredumb/dns-blackhole',

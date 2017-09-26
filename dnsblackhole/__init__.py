@@ -297,7 +297,9 @@ def build_bw_lists(bh_whitelist, bh_blacklist):
                 if '#' in line:
                     white_list.append(line.split('#')[0].strip())
                 else:
-                    white_list.append(line.strip())
+                    # Ignore empty lines
+                    if not line.strip() == '':
+                        white_list.append(line.strip())
 
     if b:
         for line in b.readlines():
@@ -307,7 +309,9 @@ def build_bw_lists(bh_whitelist, bh_blacklist):
                 if '#' in line:
                     black_list.append(line.split('#')[0].strip())
                 else:
-                    black_list.append(line.strip())
+                    # Ignore empty lines
+                    if not line.strip() == '':
+                        black_list.append(line.strip())
 
     return white_list, black_list
 
